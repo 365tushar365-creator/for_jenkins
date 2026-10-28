@@ -3,18 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI vs Humans</title>
+  <title>Ben 10 Aliens Showcase</title>
   <style>
     :root {
-      --bg: #0b0f19;
-      --card-bg: rgba(255, 255, 255, 0.04);
-      --border: rgba(255, 255, 255, 0.1);
-      --ai-cyan: #00f0ff;
-      --ai-blue: #0070f3;
-      --human-amber: #ff9f43;
-      --human-rose: #ff4757;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
+      --omnitrix-green: #00ff41;
+      --omnitrix-dark: #0a290a;
+      --bg-color: #0b0e14;
+      --card-bg: #161b22;
+      --text-main: #f0f6fc;
+      --text-muted: #8b949e;
+      --border-color: #30363d;
     }
 
     * {
@@ -25,228 +23,335 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background-color: var(--bg);
+      background-color: var(--bg-color);
       color: var(--text-main);
-      line-height: 1.6;
-      padding: 3rem 1.5rem;
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
+      padding: 2rem 1rem;
     }
 
     header {
       text-align: center;
-      margin-bottom: 4rem;
-    }
-
-    h1 {
-      font-size: clamp(2.5rem, 6vw, 4.5rem);
-      font-weight: 900;
-      letter-spacing: -0.04em;
-      text-transform: uppercase;
-      line-height: 1.1;
-      margin-bottom: 1rem;
-    }
-
-    .ai-text {
-      color: var(--ai-cyan);
-      text-shadow: 0 0 30px rgba(0, 240, 255, 0.35);
-    }
-
-    .vs-text {
-      font-size: 0.5em;
-      color: var(--text-muted);
-      margin: 0 0.5rem;
-      vertical-align: middle;
-    }
-
-    .human-text {
-      color: var(--human-amber);
-      text-shadow: 0 0 30px rgba(255, 159, 67, 0.35);
-    }
-
-    header p {
-      font-size: 1.15rem;
-      color: var(--text-muted);
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    .comparison-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 2rem;
       margin-bottom: 3rem;
     }
 
-    @media (min-width: 768px) {
-      .comparison-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-
-    .panel {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 2.5rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .panel.ai {
-      border-top: 4px solid var(--ai-cyan);
-    }
-
-    .panel.human {
-      border-top: 4px solid var(--human-amber);
-    }
-
-    .panel h2 {
-      font-size: 1.75rem;
-      margin-bottom: 0.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .panel.ai h2 { color: var(--ai-cyan); }
-    .panel.human h2 { color: var(--human-amber); }
-
-    .subtitle {
-      font-size: 0.9rem;
-      color: var(--text-muted);
+    header h1 {
+      font-size: 2.5rem;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 2rem;
+      letter-spacing: 2px;
+      color: var(--omnitrix-green);
+      text-shadow: 0 0 12px rgba(0, 255, 65, 0.4);
     }
 
-    .features-list {
-      list-style: none;
+    header p {
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      font-size: 1.1rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .alien-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
-      gap: 1.25rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
     }
 
-    .features-list li {
-      position: relative;
-      padding-left: 1.5rem;
+    .alien-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--omnitrix-green);
+      box-shadow: 0 8px 24px rgba(0, 255, 65, 0.15);
     }
 
-    .features-list li::before {
-      content: "•";
-      position: absolute;
-      left: 0;
-      font-size: 1.5rem;
-      line-height: 1;
+    .alien-img-wrapper {
+      width: 100%;
+      height: 240px;
+      background: radial-gradient(circle, var(--omnitrix-dark) 0%, #0d1117 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
     }
 
-    .panel.ai .features-list li::before { color: var(--ai-cyan); }
-    .panel.human .features-list li::before { color: var(--human-amber); }
-
-    .features-list strong {
-      display: block;
-      color: var(--text-main);
-      font-size: 1rem;
-      margin-bottom: 0.2rem;
+    .alien-img-wrapper img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
     }
 
-    .features-list span {
+    .alien-info {
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .alien-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.5rem;
+    }
+
+    .alien-header h2 {
+      font-size: 1.25rem;
+      color: #ffffff;
+    }
+
+    .alien-species {
+      font-size: 0.85rem;
+      color: var(--omnitrix-green);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.75rem;
+    }
+
+    .alien-desc {
       font-size: 0.9rem;
       color: var(--text-muted);
+      line-height: 1.4;
+      flex-grow: 1;
+      margin-bottom: 1rem;
     }
 
-    .synergy-card {
-      background: linear-gradient(135deg, rgba(0, 240, 255, 0.05), rgba(255, 159, 67, 0.05));
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 2rem;
-      text-align: center;
+    .tag-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
     }
 
-    .synergy-card h3 {
-      font-size: 1.35rem;
-      margin-bottom: 0.75rem;
-      background: linear-gradient(90deg, var(--ai-cyan), var(--human-amber));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .synergy-card p {
-      color: var(--text-muted);
-      max-width: 700px;
-      margin: 0 auto;
-      font-size: 0.95rem;
+    .tag {
+      font-size: 0.75rem;
+      background-color: rgba(0, 255, 65, 0.1);
+      color: var(--omnitrix-green);
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 255, 65, 0.2);
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>
-        <span class="ai-text">AI</span>
-        <span class="vs-text">VS</span>
-        <span class="human-text">Human</span>
-      </h1>
-      <p>Comparing raw computation and pattern recognition with consciousness, intuition, and lived experience.</p>
-    </header>
 
-    <div class="comparison-grid">
-      <!-- AI Column -->
-      <section class="panel ai">
-        <h2>Artificial Intelligence</h2>
-        <div class="subtitle">Silicon & Statistical Models</div>
-        <ul class="features-list">
-          <li>
-            <strong>Speed & Scalability</strong>
-            <span>Processes billions of parameters, calculations, and data points in milliseconds without fatigue.</span>
-          </li>
-          <li>
-            <strong>Pattern Recognition</strong>
-            <span>Surfaces hidden correlations and high-dimensional structures across massive historical datasets.</span>
-          </li>
-          <li>
-            <strong>Consistency</strong>
-            <span>Maintains high operational precision and rule enforcement with zero emotional drift or burnout.</span>
-          </li>
-          <li>
-            <strong>Infinite Iteration</strong>
-            <span>Rapidly prototypes and tests vast permutations through simulation and programmatic search.</span>
-          </li>
-        </ul>
-      </section>
+  <header>
+    <h1>Omnitrix Database</h1>
+    <p>Original Series DNA Index</p>
+  </header>
 
-      <!-- Human Column -->
-      <section class="panel human">
-        <h2>Human Intelligence</h2>
-        <div class="subtitle">Biology & Lived Experience</div>
-        <ul class="features-list">
-          <li>
-            <strong>True Context & Intent</strong>
-            <span>Understands unwritten norms, cultural nuance, sarcasm, and situational ethics innately.</span>
-          </li>
-          <li>
-            <strong>Empathy & Emotional Depth</strong>
-            <span>Builds deep interpersonal bonds, navigates moral dilemmas, and cares about outcomes.</span>
-          </li>
-          <li>
-            <strong>Novel Creativity</strong>
-            <span>Leaps into uncharted paradigms and connects disparate domains through lived intuition.</span>
-          </li>
-          <li>
-            <strong>Adaptability to Zero Data</strong>
-            <span>Navigates complete chaos and survives novel scenarios without prior training datasets.</span>
-          </li>
-        </ul>
-      </section>
+  <main class="container">
+    <div class="alien-card">
+      <div class="alien-img-wrapper">
+        <img src="https://static.wikia.nocookie.net/ben10/images/d/d4/Four_Arms_Classic.png" alt="Four Arms">
+      </div>
+      <div class="alien-info">
+        <div class="alien-header">
+          <h2>Four Arms</h2>
+        </div>
+        <div class="alien-species">Tetramand</div>
+        <p class="alien-desc">A towering four-armed bruiser boasting immense physical strength, shockwave generation, and high invulnerability.</p>
+        <div class="tag-container">
+          <span class="tag">Super Strength</span>
+          <span class="tag">Durability</span>
+        </div>
+      </div>
     </div>
 
-    <section class="synergy-card">
-      <h3>The Reality: Convergence Over Conflict</h3>
-      <p>The most powerful paradigm is not artificial intelligence replacing human capability, but human ingenuity directing machine intelligence to solve challenges neither could tackle in isolation.</p>
-    </section>
-  </div>
+    <div class="alien-card">
+      <div class="alien-img-wrapper">
+        <img src="https://static.wikia.nocookie.net/ben10/images/2/29/Heatblast_Classic.png" alt="Heatblast">
+      </div>
+      <div class="alien-info">
+        <div class="alien-header">
+          <h2>Heatblast</h2>
+        </div>
+        <div class="alien-species">Pyronite</div>
+        <p class="alien-desc">A magma-based life form capable of projecting scorching flames, absorbing ambient heat, and flying on fiery rocks.</p>
+        <div class="tag-container">
+          <span class="tag">Pyrokinesis</span>
+          <span class="tag">Flight</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="alien-card">
+      <div class="alien-img-wrapper">
+        <img src="https://static.wikia.nocookie.net/ben10/images/b/b5/XLR8_Classic.png" alt="XLR8">
+      </div>
+      <div class="alien-info">
+        <div class="alien-header">
+          <h2>XLR8</h2>
+        </div>
+        <div class="alien-species">Kineceleran</div>
+        <p class="alien-desc">A swift, reptilian speedster capable of reaching velocities over 500 mph, manipulating friction, and running across water.</p>
+        <div class="tag-container">
+          <span class="tag">Super Speed</span>
+          <span class="tag">Friction Control</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="alien-card">
+      <div class="alien-img-wrapper">
+        <img src="https://static.wikia.nocookie.net/ben10/images/a/a2/Diamondhead_Classic.png" alt="Diamondhead">
+      </div>
+      <div class="alien-info">
+        <div class="alien-header">
+          <h2>Diamondhead</h2>
+        </div>
+        <div class="alien-species">Petrosapien</div>
+        <p class="alien-desc">Composed of indestructible green crystal, capable of reshaping limbs into weapons and firing crystal shards.</p>
+        <div class="tag-container">
+          <span class="tag">Crystallokinesis</span>
+          <span class="tag">Durability</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="alien-card">
+      <div class="alien-img-wrapper">
+        <img src="https://static.wikia.nocookie.net/ben10/images/9/91/Upgrade_Classic.png" alt="Upgrade">
+      </div>
+      <div class="alien-info">
+        <div class="alien-header">
+          <h2>Upgrade</h2>
+        </div>
+        <div class="alien-species">Galvanic Mechamorph</div>
+        <p class="alien-desc">Composed of liquid metal and nanotechnology, able to merge with and technologically enhance any machine.</p>
+        <div class="tag-container">
+          <span class="tag">Technopathy</span>
+          <span class="tag">Optic Beam</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="alien-card">
+      <div class="alien-img-wrapper">
+        <img src="https://static.wikia.nocookie.net/ben10/images/3/30/Grey_Matter_Classic.png" alt="Grey Matter">
+      </div>
+      <div class="alien-info">
+        <div class="alien-header">
+          <h2>Grey Matter</h2>
+        </div>
+        <div class="alien-species">Galvan</div>
+        <p class="alien-desc">A diminutive frog-like alien possessing unmatched technical intelligence, analytical deduction, and agile climbing.</p>
+        <div class="tag-container">
+          <span class="tag">Genius Intellect</span>
+          <span class="tag">Agility</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="alien-card">
+      <div class="alien-img-wrapper">
+        <img src="https://static.wikia.nocookie.net/ben10/images/c/c5/Ripjaws_Classic.png" alt="Ripjaws">
+      </div>
+      <div class="alien-info">
+        <div class="alien-header">
+          <h2>Ripjaws</h2>
+        </div>
+        <div class="alien-species">Piscciss Volann</div>
+        <p class="alien-desc">An amphibious predator with steel-crushing jaws, razor-sharp claws, and superior underwater speed.</p>
+        <div class="tag-container">
+          <span class="tag">Underwater Combat</span>
+          <span class="tag">Steel Jaws</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="alien-card">
+      <div class="alien-img-wrapper">
+        <img src="https://static.wikia.nocookie.net/ben10/images/6/62/Stinkfly_Classic.png" alt="Stinkfly">
+      </div>
+      <div class="alien-info">
+        <div class="alien-header">
+          <h2>Stinkfly</h2>
+        </div>
+        <div class="alien-species">Lepidopterran</div>
+        <p class="alien-desc">A winged insectoid alien capable of sharp aerial maneuvers, 360-degree vision, and discharging foul-smelling slime.</p>
+        <div class="tag-container">
+          <span class="tag">Flight</span>
+          <span class="tag">Slime Projection</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="alien-card">
+      <div class="alien-img-wrapper">
+        <img src="https://static.wikia.nocookie.net/ben10/images/2/22/Ghostfreak_Classic.png" alt="Ghostfreak">
+      </div>
+      <div class="alien-info">
+        <div class="alien-header">
+          <h2>Ghostfreak</h2>
+        </div>
+        <div class="alien-species">Ectonurite</div>
+        <p class="alien-desc">A phantom entity capable of phasing through matter, levitation, true invisibility, and biological body possession.</p>
+        <div class="tag-container">
+          <span class="tag">Intangibility</span>
+          <span class="tag">Possession</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="alien-card">
+      <div class="alien-img-wrapper">
+        <img src="https://static.wikia.nocookie.net/ben10/images/e/ea/Wildmutt_Classic.png" alt="Wildmutt">
+      </div>
+      <div class="alien-info">
+        <div class="alien-header">
+          <h2>Wildmutt</h2>
+        </div>
+        <div class="alien-species">Vulpimancer</div>
+        <p class="alien-desc">A beast-like creature without eyes that visualizes its surroundings via 3D thermographic scent receptors and sound.</p>
+        <div class="tag-container">
+          <span class="tag">Enhanced Senses</span>
+          <span class="tag">Acrobatics</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="alien-card">
+      <div class="alien-img-wrapper">
+        <img src="https://static.wikia.nocookie.net/ben10/images/4/43/Cannonbolt_Classic.png" alt="Cannonbolt">
+      </div>
+      <div class="alien-info">
+        <div class="alien-header">
+          <h2>Cannonbolt</h2>
+        </div>
+        <div class="alien-species">Arburian Pelarota</div>
+        <p class="alien-desc">Rolls into an indestructible armored sphere, using momentum and ricochets to pulverize obstacles and opponents.</p>
+        <div class="tag-container">
+          <span class="tag">Armored Shell</span>
+          <span class="tag">Kinetic Momentum</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="alien-card">
+      <div class="alien-img-wrapper">
+        <img src="https://static.wikia.nocookie.net/ben10/images/d/df/Wildvine_Classic.png" alt="Wildvine">
+      </div>
+      <div class="alien-info">
+        <div class="alien-header">
+          <h2>Wildvine</h2>
+        </div>
+        <div class="alien-species">Florauna</div>
+        <p class="alien-desc">A one-eyed plant form capable of growing and stretching vines, burrowing underground, and throwing seed-bombs.</p>
+        <div class="tag-container">
+          <span class="tag">Chlorokinesis</span>
+          <span class="tag">Elasticity</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
 </body>
 </html>
