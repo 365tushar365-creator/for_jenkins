@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wanderlust - Trip Planner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #eff6ff;
+            --accent: #f59e0b;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --border-color: #e2e8f0;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .navbar {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            color: var(--text-muted);
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.9), rgba(29, 78, 216, 0.95)), 
+                        url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1200&q=80') center/cover;
+            color: #ffffff;
+            padding: 4rem 1.5rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.75rem;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Form Bar */
+        .planner-form-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            padding: 1rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) auto;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        .input-group label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .input-group input, 
+        .input-group select {
+            border: 1px solid var(--border-color);
+            padding: 0.6rem 0.8rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.95rem;
+            outline: none;
+            color: var(--text-dark);
+            transition: border-color 0.2s ease;
+        }
+
+        .input-group input:focus, 
+        .input-group select:focus {
+            border-color: var(--primary);
+        }
+
+        .btn-submit {
+            background: var(--primary);
+            color: #ffffff;
+            border: none;
+            padding: 0.75rem 1.75rem;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            cursor: pointer;
+            height: calc(100% - 1.25rem);
+            margin-top: 1.25rem;
+            transition: background 0.2s ease;
+        }
+
+        .btn-submit:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        .section-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Timeline / Daily Itinerary */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+            border-left: 2px solid var(--border-color);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-badge {
+            position: absolute;
+            left: -2.6rem;
+            top: 0;
+            background: var(--primary);
+            color: #ffffff;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 700;
+            border: 3px solid var(--bg-body);
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .card-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .badge-tag {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.6rem;
+            border-radius: 9999px;
+            background: var(--primary-light);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .activity-list {
+            margin-top: 1rem;
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .activity-list li {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .activity-time {
+            font-weight: 600;
+            color: var(--text-dark);
+            min-width: 65px;
+        }
+
+        /* Sidebar Widgets */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* Budget Card */
+        .budget-card .total-budget {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 1rem;
+        }
+
+        .total-budget .amount {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: var(--border-color);
+            border-radius: 9999px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 65%;
+            background: var(--primary);
+            border-radius: 9999px;
+        }
+
+        .budget-breakdown {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .budget-breakdown li {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-muted);
+        }
+
+        .budget-breakdown li span:last-child {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        /* Packing Checklist */
+        .checklist {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .check-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.95rem;
+            cursor: pointer;
+        }
+
+        .check-item input[type="checkbox"] {
+            width: 1.1rem;
+            height: 1.1rem;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        /* Destination Grid */
+        .destinations-section {
+            max-width: 1200px;
+            margin: 0 auto 4rem;
+            padding: 0 1.5rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .destination-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .destination-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .destination-img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+
+        .destination-info {
+            padding: 1rem;
+        }
+
+        .destination-info h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .destination-info p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-card);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Responsiveness */
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .planner-form-container {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .btn-submit {
+                grid-column: span 2;
+                margin-top: 0.5rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .planner-form-container {
+                grid-template-columns: 1fr;
+            }
+
+            .btn-submit {
+                grid-column: 1;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <nav class="navbar">
+            <a href="#" class="logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="3 11 22 2 13 21 11 13 3 11"/>
+                </svg>
+                Wanderlust
+            </a>
+            <ul class="nav-links">
+                <li><a href="#itinerary">Itinerary</a></li>
+                <li><a href="#budget">Budget</a></li>
+                <li><a href="#packing">Checklist</a></li>
+                <li><a href="#explore">Explore</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero & Search Input Section -->
+    <section class="hero">
+        <h1>Plan Your Next Getaway</h1>
+        <p>Organize daily schedules, track trip expenses, and prepare your checklist in one spot.</p>
+
+        <form class="planner-form-container" onsubmit="event.preventDefault();">
+            <div class="input-group">
+                <label for="destination">Destination</label>
+                <input type="text" id="destination" placeholder="Where to?" value="Kyoto, Japan" required>
+            </div>
+            <div class="input-group">
+                <label for="dates">Dates</label>
+                <input type="date" id="dates" value="2026-11-10">
+            </div>
+            <div class="input-group">
+                <label for="travelers">Travelers</label>
+                <select id="travelers">
+                    <option>1 Solo Explorer</option>
+                    <option selected>2 Adventurers</option>
+                    <option>Family (3-5)</option>
+                    <option>Group (5+)</option>
+                </select>
+            </div>
+            <button type="submit" class="btn-submit">Update Plan</button>
+        </form>
+    </section>
+
+    <!-- Main Content Area -->
+    <main class="container">
+        
+        <!-- Left: Daily Itinerary Section -->
+        <section id="itinerary">
+            <div class="section-header">
+                <h2>Daily Schedule</h2>
+                <p>Curated stops and timing for your selected journey.</p>
+            </div>
+
+            <div class="timeline">
+                <!-- Day 1 -->
+                <div class="timeline-item">
+                    <div class="timeline-badge">1</div>
+                    <div class="card">
+                        <div class="card-title">
+                            Arrival & Historic District
+                            <span class="badge-tag">Nov 10</span>
+                        </div>
+                        <ul class="activity-list">
+                            <li>
+                                <span class="activity-time">09:30 AM</span>
+                                <span>Check-in at accommodation and settle luggage.</span>
+                            </li>
+                            <li>
+                                <span class="activity-time">01:00 PM</span>
+                                <span>Traditional lunch near the historic district alleys.</span>
+                            </li>
+                            <li>
+                                <span class="activity-time">03:30 PM</span>
+                                <span>Walking tour around ancient temples and photography.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Day 2 -->
+                <div class="timeline-item">
+                    <div class="timeline-badge">2</div>
+                    <div class="card">
+                        <div class="card-title">
+                            Nature & Cultural Landmarks
+                            <span class="badge-tag">Nov 11</span>
+                        </div>
+                        <ul class="activity-list">
+                            <li>
+                                <span class="activity-time">07:00 AM</span>
+                                <span>Early morning hike to beat crowds at the bamboo trails.</span>
+                            </li>
+                            <li>
+                                <span class="activity-time">12:30 PM</span>
+                                <span>Riverside café lunch and local market shopping.</span>
+                            </li>
+                            <li>
+                                <span class="activity-time">06:00 PM</span>
+                                <span>Traditional dinner followed by an evening lantern walk.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Day 3 -->
+                <div class="timeline-item">
+                    <div class="timeline-badge">3</div>
+                    <div class="card">
+                        <div class="card-title">
+                            Culinary Exploration & Departure
+                            <span class="badge-tag">Nov 12</span>
+                        </div>
+                        <ul class="activity-list">
+                            <li>
+                                <span class="activity-time">10:00 AM</span>
+                                <span>Artisan tea tasting and souvenir shopping.</span>
+                            </li>
+                            <li>
+                                <span class="activity-time">02:30 PM</span>
+                                <span>Express train transfer to the transit hub.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Right: Budget & Packing Sidebar -->
+        <aside class="sidebar">
+            
+            <!-- Budget Tracking Widget -->
+            <div class="card budget-card" id="budget">
+                <div class="section-header">
+                    <h2>Trip Budget</h2>
+                    <p>Estimated total spending.</p>
+                </div>
+                <div class="total-budget">
+                    <span class="amount">$1,350</span>
+                    <span style="color: var(--text-muted); font-size: 0.9rem;">of $2,000 cap</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                <ul class="budget-breakdown">
+                    <li><span>Lodging</span> <span>$650</span></li>
+                    <li><span>Transit & Tickets</span> <span>$320</span></li>
+                    <li><span>Food & Dining</span> <span>$280</span></li>
+                    <li><span>Activities & Gear</span> <span>$100</span></li>
+                </ul>
+            </div>
+
+            <!-- Packing Checklist Widget -->
+            <div class="card" id="packing">
+                <div class="section-header">
+                    <h2>Packing List</h2>
+                    <p>Essential checklist items.</p>
+                </div>
+                <div class="checklist">
+                    <label class="check-item">
+                        <input type="checkbox" checked>
+                        <span>Passport & ID Documents</span>
+                    </label>
+                    <label class="check-item">
+                        <input type="checkbox" checked>
+                        <span>Universal Power Adapter</span>
+                    </label>
+                    <label class="check-item">
+                        <input type="checkbox">
+                        <span>Portable Power Bank</span>
+                    </label>
+                    <label class="check-item">
+                        <input type="checkbox">
+                        <span>Compact Umbrella / Rain Gear</span>
+                    </label>
+                    <label class="check-item">
+                        <input type="checkbox">
+                        <span>Comfortable Trail Walking Shoes</span>
+                    </label>
+                </div>
+            </div>
+
+        </aside>
+    </main>
+
+    <!-- Destination Suggestions Grid -->
+    <section class="destinations-section" id="explore">
+        <div class="section-header">
+            <h2>Popular Nearby Spots</h2>
+            <p>Recommended places to fit into this itinerary.</p>
+        </div>
+        <div class="grid">
+            <div class="destination-card">
+                <img class="destination-img" src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=600&q=80" alt="Temples">
+                <div class="destination-info">
+                    <h3>Historic Shrine District</h3>
+                    <p>Iconic scenic trail lined with vibrant vermilion torii gates.</p>
+                </div>
+            </div>
+            <div class="destination-card">
+                <img class="destination-img" src="https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=600&q=80" alt="Nature Path">
+                <div class="destination-info">
+                    <h3>Bamboo Grove Trail</h3>
+                    <p>A tranquil natural walkway surrounded by soaring stalks.</p>
+                </div>
+            </div>
+            <div class="destination-card">
+                <img class="destination-img" src="https://images.unsplash.com/photo-1551641506-ee5bf4cb45f1?auto=format&fit=crop&w=600&q=80" alt="Old Town">
+                <div class="destination-info">
+                    <h3>Preserved Alleyways</h3>
+                    <p>Traditional wooden townhouses filled with teahouses and ceramics.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 Wanderlust Trip Planner. Crafted with clean HTML & CSS.</p>
+    </footer>
+
+</body>
+</html>
